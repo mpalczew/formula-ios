@@ -1,0 +1,86 @@
+name: SwiftFormula
+options:
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  SWIFT_VERSION: "6.0"
+  DEVELOPMENT_TEAM: ""
+targets:
+  FormulaCore:
+    type: framework
+    platform: iOS
+    sources: Sources/FormulaCore
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.core
+      GENERATE_INFOPLIST_FILE: YES
+  FormulaLCE:
+    type: framework
+    platform: iOS
+    sources: Sources/FormulaLCE
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.lce
+      GENERATE_INFOPLIST_FILE: YES
+  FormulaSwiftUI:
+    type: framework
+    platform: iOS
+    sources: Sources/FormulaSwiftUI
+    dependencies:
+      - target: FormulaCore
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.swiftui
+      GENERATE_INFOPLIST_FILE: YES
+  FormulaSample:
+    type: application
+    platform: iOS
+    sources: Sources/FormulaSample
+    dependencies:
+      - target: FormulaCore
+      - target: FormulaSwiftUI
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.sample
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_CFBundleDisplayName: Formula Sample
+      INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+      INFOPLIST_KEY_UILaunchScreen_Generation: YES
+  FormulaCoreTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: Tests/FormulaCoreTests
+    dependencies:
+      - target: FormulaCore
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.core-tests
+  FormulaLCETests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: Tests/FormulaLCETests
+    dependencies:
+      - target: FormulaLCE
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.lce-tests
+  FormulaSampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: Tests/FormulaSampleTests
+    dependencies:
+      - target: FormulaSample
+      - target: FormulaCore
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.sample-tests
+schemes:
+  SwiftFormula:
+    build:
+      targets:
+        FormulaCore: all
+        FormulaLCE: all
+        FormulaSwiftUI: all
+        FormulaSample: all
+        FormulaCoreTests: [test]
+        FormulaLCETests: [test]
+        FormulaSampleTests: [test]
+    test:
+      targets:
+        - name: FormulaCoreTests
+        - name: FormulaLCETests
+        - name: FormulaSampleTests
