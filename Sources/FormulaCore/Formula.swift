@@ -96,6 +96,7 @@ public final class FormulaStore<F: Formula>: ObservableObject {
                 guard let self else { return }
                 let task = Task { @MainActor [weak self] in
                     let mutation = await operation()
+                    guard !Task.isCancelled else { return }
                     self?.send(mutation)
                 }
                 self.tasks.append(task)
