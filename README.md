@@ -33,6 +33,8 @@ Use `FormulaContext.child(_:state:)` to compose formulas. Use `LCE`, `UCE`, `UCT
 
 The full usage guide is in [Documentation/Guide.md](Documentation/Guide.md). The sample iOS app has Home and Settings screens, a shared header component used by both, nested child state, callbacks, and an LCE-driven content section.
 
+`FormulaNetworking` provides the single mockable URLSession boundary for request execution and decoding.
+
 ## Build and test
 
 ```sh

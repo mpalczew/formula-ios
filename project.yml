@@ -21,6 +21,13 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.lce
       GENERATE_INFOPLIST_FILE: YES
+  FormulaNetworking:
+    type: framework
+    platform: iOS
+    sources: Sources/FormulaNetworking
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.networking
+      GENERATE_INFOPLIST_FILE: YES
   FormulaSwiftUI:
     type: framework
     platform: iOS
@@ -59,6 +66,14 @@ targets:
       - target: FormulaLCE
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.lce-tests
+  FormulaNetworkingTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: Tests/FormulaNetworkingTests
+    dependencies:
+      - target: FormulaNetworking
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.networking-tests
   FormulaSampleTests:
     type: bundle.unit-test
     platform: iOS
@@ -74,13 +89,16 @@ schemes:
       targets:
         FormulaCore: all
         FormulaLCE: all
+        FormulaNetworking: all
         FormulaSwiftUI: all
         FormulaSample: all
         FormulaCoreTests: [test]
         FormulaLCETests: [test]
+        FormulaNetworkingTests: [test]
         FormulaSampleTests: [test]
     test:
       targets:
         - name: FormulaCoreTests
         - name: FormulaLCETests
+        - name: FormulaNetworkingTests
         - name: FormulaSampleTests

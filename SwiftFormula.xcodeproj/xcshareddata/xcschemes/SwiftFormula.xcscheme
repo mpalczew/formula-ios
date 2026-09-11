@@ -71,6 +71,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2BF38DCEBC5279C8335C5F25"
+               BuildableName = "FormulaNetworking.framework"
+               BlueprintName = "FormulaNetworking"
+               ReferencedContainer = "container:SwiftFormula.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0B365CFC3BBE399CC209A9B5"
+               BuildableName = "FormulaNetworkingTests.xctest"
+               BlueprintName = "FormulaNetworkingTests"
+               ReferencedContainer = "container:SwiftFormula.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "3AF0DC5C16380888D4B940B2"
                BuildableName = "FormulaSample.app"
                BlueprintName = "FormulaSample"
@@ -142,6 +170,17 @@
                BlueprintIdentifier = "2E3E4C3087F1C4315D6615A4"
                BuildableName = "FormulaLCETests.xctest"
                BlueprintName = "FormulaLCETests"
+               ReferencedContainer = "container:SwiftFormula.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0B365CFC3BBE399CC209A9B5"
+               BuildableName = "FormulaNetworkingTests.xctest"
+               BlueprintName = "FormulaNetworkingTests"
                ReferencedContainer = "container:SwiftFormula.xcodeproj">
             </BuildableReference>
          </TestableReference>

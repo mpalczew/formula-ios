@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0264D06F202AFF03A1F1622C /* FormulaNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A7A7E37B99F6815670FD44D /* FormulaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BBDF3F1B9A650A7982D3441 /* LCETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E7360968AFA16838867216 /* LCETests.swift */; };
 		1B38429AFCA4D5999986972C /* FormulaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		24A4CEDF835F03D74128B5F1 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371453E9EA75BB233797C76 /* HTTPClient.swift */; };
 		331CEBBE3319DDBC89EFD506 /* FormulaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42BD15C44EF5C19C9385028E /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
 		42D289D69A0E03A3DB68AE19 /* FormulaLCE.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F77F30D3512E845C4085D08 /* FormulaLCE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		508E7B4F120A9EE5B283686A /* FormulaSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52C969B91D3989B99171BA0B /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
 		5D02357F7825840360C2C16A /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D5523229883A0DAF355372 /* SampleTests.swift */; };
+		6C07FAF899B8875737F717AB /* HTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13445258ECB353BBE67730A /* HTTPClientTests.swift */; };
 		71903673BBCA4060BAEB4C38 /* LCE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7FD7B863B1F3E9B17B5B3 /* LCE.swift */; };
 		7DC67B7608196526BF3331F5 /* FormulaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852CE41BD73220F4D607E87 /* FormulaTests.swift */; };
 		7E38B910286628BF7E4BDBD3 /* FormulaSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */; };
@@ -25,6 +28,7 @@
 		A1109C37B10B2681868305EF /* Formula.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426D4793BF9FF7AE5E2FE6AC /* Formula.swift */; };
 		C72ACD7C71B85C1D34BBB984 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70F40AF9200BE45C6706BF3 /* main.swift */; };
 		E5F162CD4B4C23C75DE2A05B /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
+		EC29F9A79CAD58DA18E925F7 /* FormulaNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +74,13 @@
 			remoteGlobalIDString = CE871A00F672CAB089BE5119;
 			remoteInfo = FormulaCore;
 		};
+		E8C1881472E31F28D67190B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 164C47709646100711C6BAD1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BF38DCEBC5279C8335C5F25;
+			remoteInfo = FormulaNetworking;
+		};
 		E983E9B851A63A03EEF1EA6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 164C47709646100711C6BAD1 /* Project object */;
@@ -80,6 +91,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		55FACDE88FADB9B6052F39BA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0264D06F202AFF03A1F1622C /* FormulaNetworking.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		93CA658D31A4927F5B01BF5D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -136,11 +158,15 @@
 		61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC7FD7B863B1F3E9B17B5B3 /* LCE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCE.swift; sourceTree = "<group>"; };
 		9F77F30D3512E845C4085D08 /* FormulaLCE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaLCE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B13445258ECB353BBE67730A /* HTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientTests.swift; sourceTree = "<group>"; };
 		B852CE41BD73220F4D607E87 /* FormulaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaTests.swift; sourceTree = "<group>"; };
 		B8E7360968AFA16838867216 /* LCETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCETests.swift; sourceTree = "<group>"; };
+		BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70F40AF9200BE45C6706BF3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D340500F09844699F2009C42 /* FormulaLCETests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FormulaLCETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0199D3E9FE5068FCFDA2CC /* FormulaSample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FormulaSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E371453E9EA75BB233797C76 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		E8DD7ACE34B15C816037B7B1 /* FormulaNetworkingTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FormulaNetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA4CD5A3B4349F72AB901B3A /* FormulaCoreTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FormulaCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -177,6 +203,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6B86D77EEEA73A24A0578C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC29F9A79CAD58DA18E925F7 /* FormulaNetworking.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BFC9695AAFB02E7DEBE3C594 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -204,6 +238,8 @@
 				EA4CD5A3B4349F72AB901B3A /* FormulaCoreTests.xctest */,
 				9F77F30D3512E845C4085D08 /* FormulaLCE.framework */,
 				D340500F09844699F2009C42 /* FormulaLCETests.xctest */,
+				BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */,
+				E8DD7ACE34B15C816037B7B1 /* FormulaNetworkingTests.xctest */,
 				DA0199D3E9FE5068FCFDA2CC /* FormulaSample.app */,
 				60DF4D8AD15B9C08EEAAE6FA /* FormulaSampleTests.xctest */,
 				61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */,
@@ -216,6 +252,7 @@
 			children = (
 				C6023C1835C8226B2DB519D4 /* FormulaCore */,
 				20452A0C7594F586712C18B7 /* FormulaLCE */,
+				C4B387EB6C7B33E4C4437518 /* FormulaNetworking */,
 				93D01ED285B75D65EBB1E133 /* FormulaSample */,
 				4624BEEC508085425C22A387 /* FormulaSwiftUI */,
 			);
@@ -227,6 +264,7 @@
 			children = (
 				AA61BADCB9ABCCF42AE2577D /* FormulaCoreTests */,
 				034BDF4A6F4BD4AEEC54D14A /* FormulaLCETests */,
+				78361B740B7C4D45E8EE200E /* FormulaNetworkingTests */,
 				7BF7F4AEC13F207058E415B2 /* FormulaSampleTests */,
 			);
 			path = Tests;
@@ -246,6 +284,14 @@
 				14196075AB5C1F0D194AC799 /* FormulaView.swift */,
 			);
 			path = FormulaSwiftUI;
+			sourceTree = "<group>";
+		};
+		78361B740B7C4D45E8EE200E /* FormulaNetworkingTests */ = {
+			isa = PBXGroup;
+			children = (
+				B13445258ECB353BBE67730A /* HTTPClientTests.swift */,
+			);
+			path = FormulaNetworkingTests;
 			sourceTree = "<group>";
 		};
 		7BF7F4AEC13F207058E415B2 /* FormulaSampleTests */ = {
@@ -270,6 +316,14 @@
 				B852CE41BD73220F4D607E87 /* FormulaTests.swift */,
 			);
 			path = FormulaCoreTests;
+			sourceTree = "<group>";
+		};
+		C4B387EB6C7B33E4C4437518 /* FormulaNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				E371453E9EA75BB233797C76 /* HTTPClient.swift */,
+			);
+			path = FormulaNetworking;
 			sourceTree = "<group>";
 		};
 		C6023C1835C8226B2DB519D4 /* FormulaCore */ = {
@@ -311,6 +365,43 @@
 			productName = FormulaCoreTests;
 			productReference = EA4CD5A3B4349F72AB901B3A /* FormulaCoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0B365CFC3BBE399CC209A9B5 /* FormulaNetworkingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77C63189C1201DDF0451B721 /* Build configuration list for PBXNativeTarget "FormulaNetworkingTests" */;
+			buildPhases = (
+				203EC9EF119CE5CCD742FF21 /* Sources */,
+				B6B86D77EEEA73A24A0578C8 /* Frameworks */,
+				55FACDE88FADB9B6052F39BA /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5B01D9560B34118C03F226EC /* PBXTargetDependency */,
+			);
+			name = FormulaNetworkingTests;
+			packageProductDependencies = (
+			);
+			productName = FormulaNetworkingTests;
+			productReference = E8DD7ACE34B15C816037B7B1 /* FormulaNetworkingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		2BF38DCEBC5279C8335C5F25 /* FormulaNetworking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E28EE319F9E8034E0F3176D /* Build configuration list for PBXNativeTarget "FormulaNetworking" */;
+			buildPhases = (
+				4E167F01C012ECD58D7EF785 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FormulaNetworking;
+			packageProductDependencies = (
+			);
+			productName = FormulaNetworking;
+			productReference = BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 		2E3E4C3087F1C4315D6615A4 /* FormulaLCETests */ = {
 			isa = PBXNativeTarget;
@@ -439,6 +530,12 @@
 					01F7591135F5DA3CC737DA9B = {
 						DevelopmentTeam = "";
 					};
+					0B365CFC3BBE399CC209A9B5 = {
+						DevelopmentTeam = "";
+					};
+					2BF38DCEBC5279C8335C5F25 = {
+						DevelopmentTeam = "";
+					};
 					2E3E4C3087F1C4315D6615A4 = {
 						DevelopmentTeam = "";
 					};
@@ -475,10 +572,12 @@
 			targets = (
 				CE871A00F672CAB089BE5119 /* FormulaCore */,
 				E56CDB6D7B022FB6E8DE66A2 /* FormulaLCE */,
+				2BF38DCEBC5279C8335C5F25 /* FormulaNetworking */,
 				CFD93FBE691E41B6A12A4D1C /* FormulaSwiftUI */,
 				3AF0DC5C16380888D4B940B2 /* FormulaSample */,
 				01F7591135F5DA3CC737DA9B /* FormulaCoreTests */,
 				2E3E4C3087F1C4315D6615A4 /* FormulaLCETests */,
+				0B365CFC3BBE399CC209A9B5 /* FormulaNetworkingTests */,
 				7905122F24D029277766DCED /* FormulaSampleTests */,
 			);
 		};
@@ -490,6 +589,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A867F26CC48E4FB8AF4127D /* FormulaView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		203EC9EF119CE5CCD742FF21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6C07FAF899B8875737F717AB /* HTTPClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +613,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BBDF3F1B9A650A7982D3441 /* LCETests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4E167F01C012ECD58D7EF785 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24A4CEDF835F03D74128B5F1 /* HTTPClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +668,11 @@
 			isa = PBXTargetDependency;
 			target = CFD93FBE691E41B6A12A4D1C /* FormulaSwiftUI */;
 			targetProxy = 98F617E4DA0269918572DF12 /* PBXContainerItemProxy */;
+		};
+		5B01D9560B34118C03F226EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BF38DCEBC5279C8335C5F25 /* FormulaNetworking */;
+			targetProxy = E8C1881472E31F28D67190B9 /* PBXContainerItemProxy */;
 		};
 		72F70679A7A382AC2A6D0FEF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -610,6 +730,21 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FormulaSample.app/FormulaSample";
+			};
+			name = Debug;
+		};
+		57BF030D0FDC9A41FAF5817A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nimbusdev.formula.networking-tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -727,6 +862,29 @@
 			};
 			name = Release;
 		};
+		888F8866FE31BBA5F74CF20E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nimbusdev.formula.networking;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		916FC64AF3FDC62C5CA7F1E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -760,6 +918,21 @@
 					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nimbusdev.formula.lce-tests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9BAF47A40544648BE518BAEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nimbusdev.formula.networking-tests";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -971,6 +1144,29 @@
 			};
 			name = Release;
 		};
+		F03A5DE0852250BA565F0BD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nimbusdev.formula.networking;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1024,6 +1220,24 @@
 			buildConfigurations = (
 				2D543D8C637837AABCC1697E /* Debug */,
 				7923EA60743B0400EAE622D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		77C63189C1201DDF0451B721 /* Build configuration list for PBXNativeTarget "FormulaNetworkingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57BF030D0FDC9A41FAF5817A /* Debug */,
+				9BAF47A40544648BE518BAEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8E28EE319F9E8034E0F3176D /* Build configuration list for PBXNativeTarget "FormulaNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F03A5DE0852250BA565F0BD1 /* Debug */,
+				888F8866FE31BBA5F74CF20E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

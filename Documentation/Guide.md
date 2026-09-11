@@ -85,12 +85,14 @@ struct Screen: Formula {
 
 ## Effects and networking
 
-Keep URL construction, authentication, decoding, and transport errors in clients. A formula receives a client as a dependency and turns its result into a state mutation:
+Keep URL construction, authentication, decoding, and transport errors in clients. `FormulaNetworking.HTTPClient` is the single transport boundary. It wraps URLSession in production and accepts a closure in tests. Feature clients build domain requests on top of it. A formula receives a feature client as a dependency and turns its result into a state mutation:
 
 ```swift
 struct ProductClient {
     var fetch: () async throws -> [Product]
 }
+
+let http = HTTPClient.live
 
 // Inside a callback:
 context.effect { [client] in
