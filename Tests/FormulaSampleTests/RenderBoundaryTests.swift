@@ -13,41 +13,44 @@ final class RenderBoundaryTests: XCTestCase {
     func testChangingSiblingDoesNotRenderUnchangedChild() async {
         let store = FormulaStore(formula: DisplayFormula(), initialState: .init())
         let probe = RenderProbe()
+        let initial = expectation(description: "Initial child rendered")
+        probe.childExpectation = ("initial", initial)
         let view = FormulaView(store: store) { model in
-            probe.parentValue = model.sibling
+            probe.parentRendered(model.sibling)
             return VStack {
                 Text("\(model.sibling)")
                 FormulaContent(model: model.child) { title in
-                    probe.childRenders += 1
-                    probe.childValue = title
+                    probe.childRendered(title)
                     return Text(title)
                 }.equatable()
             }
         }
         let layout = host(view)
-        await waitForRender(layout) { probe.childValue == "initial" }
+        layout()
+        await waitForRender(initial)
         let initialRenders = probe.childRenders
         XCTAssertGreaterThan(initialRenders, 0)
 
+        let sibling = expectation(description: "Sibling rendered")
+        probe.parentExpectation = (1, sibling)
         store.send { $0.sibling += 1 }
-        await waitForRender(layout) { probe.parentValue == 1 }
+        layout()
+        await waitForRender(sibling)
         XCTAssertEqual(probe.childRenders, initialRenders)
 
+        let changed = expectation(description: "Changed child rendered")
+        probe.childExpectation = ("changed", changed)
         store.send { $0.child = "changed" }
-        await waitForRender(layout) { probe.childValue == "changed" }
+        layout()
+        await waitForRender(changed)
         XCTAssertGreaterThan(probe.childRenders, initialRenders)
         withExtendedLifetime(layout) {}
     }
 
     @MainActor
-    private func waitForRender(_ layout: () -> Void, until rendered: () -> Bool) async {
-        // Pump the actual host, yielding only to pending UI work, never sleeping.
-        for _ in 0..<100 {
-            layout()
-            if rendered() { return }
-            await Task.yield()
-        }
-        XCTFail("SwiftUI did not render the expected model")
+    private func waitForRender(_ rendered: XCTestExpectation) async {
+        let result = await XCTWaiter.fulfillment(of: [rendered], timeout: 5)
+        XCTAssertEqual(result, .completed, "SwiftUI did not render the expected model")
     }
 
     @MainActor
@@ -77,9 +80,22 @@ final class RenderBoundaryTests: XCTestCase {
 
 @MainActor
 private final class RenderProbe {
-    var parentValue = -1
     var childRenders = 0
-    var childValue = ""
+    var parentExpectation: (value: Int, signal: XCTestExpectation)?
+    var childExpectation: (value: String, signal: XCTestExpectation)?
+
+    func parentRendered(_ value: Int) {
+        guard let expected = parentExpectation, expected.value == value else { return }
+        parentExpectation = nil
+        expected.signal.fulfill()
+    }
+
+    func childRendered(_ value: String) {
+        childRenders += 1
+        guard let expected = childExpectation, expected.value == value else { return }
+        childExpectation = nil
+        expected.signal.fulfill()
+    }
 }
 
 private struct DisplayFormula: Formula {

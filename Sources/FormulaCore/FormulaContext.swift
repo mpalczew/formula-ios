@@ -74,8 +74,11 @@ public struct FormulaContext<State> {
         defer { childScope.endEvaluation() }
         let context = FormulaContext<Child.State>(
             state: state[keyPath: keyPath], scope: childScope,
-            applyMutation: { mutation in
-                self.transition { mutation(&$0[keyPath: keyPath]) }
+            applyMutation: { [weak childScope] mutation in
+                self.transition { state in
+                    guard childScope?.isActive == true else { return }
+                    mutation(&state[keyPath: keyPath])
+                }
             }
         )
         return formula.render(state: state[keyPath: keyPath], context: context)
