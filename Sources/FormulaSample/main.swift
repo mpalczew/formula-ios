@@ -5,7 +5,7 @@ import SwiftUI
 
 public struct SharedHeader: Formula {
     public struct State { public var title: String }
-    public struct RenderModel { public let title: String; public let onTap: () -> Void }
+    public struct RenderModel: Equatable { public let title: String; public let onTap: Callback<Void> }
     public init() {}
 
     @MainActor public func render(state: State, context: FormulaContext<State>) -> RenderModel {
@@ -20,12 +20,23 @@ public struct HomeScreen: Formula {
         public var message: String? = nil
         public var items: UCT<[String]> = .loading()
     }
-    public struct RenderModel {
+    public struct RenderModel: Equatable {
         public let header: SharedHeader.RenderModel
         public let count: Int
         public let message: String?
-        public let items: UCT<[String]>
-        public let increment: () -> Void
+        public let items: Items
+        public let increment: Callback<Void>
+    }
+    public enum Items: Equatable {
+        case loading, content([String]), error
+
+        init(_ value: UCT<[String]>) {
+            switch value {
+            case .loading: self = .loading
+            case .content(let items): self = .content(items)
+            case .error: self = .error
+            }
+        }
     }
     public init() {}
 
@@ -34,7 +45,7 @@ public struct HomeScreen: Formula {
             header: context.child(SharedHeader(), state: \.header),
             count: state.count,
             message: state.message,
-            items: state.items,
+            items: Items(state.items),
             increment: context.callback {
                 $0.count += 1
                 $0.message = "Updated from Home"
@@ -49,10 +60,10 @@ public struct SettingsScreen: Formula {
         public var header = SharedHeader.State(title: "Settings")
         public var enabled = false
     }
-    public struct RenderModel {
+    public struct RenderModel: Equatable {
         public let header: SharedHeader.RenderModel
         public let enabled: Bool
-        public let toggle: () -> Void
+        public let toggle: Callback<Void>
     }
     public init() {}
 
@@ -72,9 +83,9 @@ public struct HomeScreenView: View {
     public var body: some View {
         FormulaView(store: store) { model in
             VStack(spacing: 20) {
-                HeaderView(model: model.header)
+                FormulaContent(model: model.header) { HeaderView(model: $0) }.equatable()
                 Text("Count: \(model.count)").font(.title)
-                Button("Increment", action: model.increment)
+                Button("Increment") { model.increment() }
                 if let message = model.message { Text(message).foregroundStyle(.secondary) }
                 switch model.items {
                 case .loading: ProgressView("Loading items")
@@ -95,7 +106,7 @@ public struct SettingsScreenView: View {
     public var body: some View {
         FormulaView(store: store) { model in
             VStack(spacing: 20) {
-                HeaderView(model: model.header)
+                FormulaContent(model: model.header) { HeaderView(model: $0) }.equatable()
                 Toggle("Enabled", isOn: Binding(get: { model.enabled }, set: { _ in model.toggle() }))
                     .padding(.horizontal)
             }
@@ -107,7 +118,7 @@ public struct SettingsScreenView: View {
 
 private struct HeaderView: View {
     let model: SharedHeader.RenderModel
-    var body: some View { Button(model.title, action: model.onTap).font(.headline).buttonStyle(.bordered) }
+    var body: some View { Button(model.title) { model.onTap() }.font(.headline).buttonStyle(.bordered) }
 }
 
 public struct FormulaSampleApp: App {

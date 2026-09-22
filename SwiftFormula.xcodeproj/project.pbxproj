@@ -12,27 +12,48 @@
 		0BBDF3F1B9A650A7982D3441 /* LCETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E7360968AFA16838867216 /* LCETests.swift */; };
 		1B38429AFCA4D5999986972C /* FormulaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		24A4CEDF835F03D74128B5F1 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E371453E9EA75BB233797C76 /* HTTPClient.swift */; };
+		2514E1EEAA948E73BEA1FF79 /* FormulaScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7935A32EB76E99AD9F7C94D0 /* FormulaScope.swift */; };
+		2B12997C4D58212796727500 /* RenderBoundaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AAFF20CB8A116025B959B2 /* RenderBoundaryTests.swift */; };
+		2F5C03D61F54BC6EA10C4D16 /* RenderingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D2674BE6F97C73EA02036 /* RenderingTests.swift */; };
 		331CEBBE3319DDBC89EFD506 /* FormulaCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3C008B984A54866CB531DB90 /* FormulaSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42BD15C44EF5C19C9385028E /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
 		42D289D69A0E03A3DB68AE19 /* FormulaLCE.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F77F30D3512E845C4085D08 /* FormulaLCE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4807B05EACB7B8562BD3F54B /* EffectFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3325D52AB159560EB1BE8 /* EffectFixtures.swift */; };
+		48C96DFCF52D4E1BF09D9B61 /* CallbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE25F65FF35B38C437C1E2A /* CallbackTests.swift */; };
 		508E7B4F120A9EE5B283686A /* FormulaSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52C969B91D3989B99171BA0B /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
 		5D02357F7825840360C2C16A /* SampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D5523229883A0DAF355372 /* SampleTests.swift */; };
+		5E2A7510DB680075D7929E14 /* FormulaSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */; };
 		6C07FAF899B8875737F717AB /* HTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13445258ECB353BBE67730A /* HTTPClientTests.swift */; };
 		71903673BBCA4060BAEB4C38 /* LCE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7FD7B863B1F3E9B17B5B3 /* LCE.swift */; };
+		7229F39ACCF9AB8938C694AC /* FormulaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25264BE461D9AF5BD189B9A /* FormulaStore.swift */; };
+		73E2539799220A4D3854A362 /* FormulaLCE.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F77F30D3512E845C4085D08 /* FormulaLCE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7DC67B7608196526BF3331F5 /* FormulaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B852CE41BD73220F4D607E87 /* FormulaTests.swift */; };
 		7E38B910286628BF7E4BDBD3 /* FormulaSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */; };
 		85DF4080870DC96B0EBB7BFA /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
+		860397E2CE0F92EE4BABB157 /* FormulaLCE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F77F30D3512E845C4085D08 /* FormulaLCE.framework */; };
+		876D512B44B231A864E35BAE /* Callback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0955331D0C1482F18FCBA19A /* Callback.swift */; };
 		998411423F87C394E8A48CCC /* FormulaLCE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F77F30D3512E845C4085D08 /* FormulaLCE.framework */; };
 		9A867F26CC48E4FB8AF4127D /* FormulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14196075AB5C1F0D194AC799 /* FormulaView.swift */; };
 		A1109C37B10B2681868305EF /* Formula.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426D4793BF9FF7AE5E2FE6AC /* Formula.swift */; };
+		A69CA5DE0BF37E8EA56E54C9 /* FormulaEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467CC0C9663653320E209610 /* FormulaEffects.swift */; };
 		C72ACD7C71B85C1D34BBB984 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70F40AF9200BE45C6706BF3 /* main.swift */; };
+		D5AF1F102AF4648353B2E3AA /* FormulaContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CDAE31D06ED9C9086D4907 /* FormulaContext.swift */; };
+		DCA3DAEDC36014E4F99D556B /* EffectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C2F98C098A09AC7B023118E /* EffectTests.swift */; };
 		E5F162CD4B4C23C75DE2A05B /* FormulaCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 499BB5A9B9E78BA12863262E /* FormulaCore.framework */; };
 		EC29F9A79CAD58DA18E925F7 /* FormulaNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		2371274F6E9DD39F7EFA0C84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 164C47709646100711C6BAD1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E56CDB6D7B022FB6E8DE66A2;
+			remoteInfo = FormulaLCE;
+		};
+		588A60266127599B014C3F14 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 164C47709646100711C6BAD1 /* Project object */;
 			proxyType = 1;
@@ -88,6 +109,13 @@
 			remoteGlobalIDString = CE871A00F672CAB089BE5119;
 			remoteInfo = FormulaCore;
 		};
+		F1A82F81E922FCE499AD5282 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 164C47709646100711C6BAD1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFD93FBE691E41B6A12A4D1C;
+			remoteInfo = FormulaSwiftUI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -109,6 +137,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				1B38429AFCA4D5999986972C /* FormulaCore.framework in Embed Frameworks */,
+				3C008B984A54866CB531DB90 /* FormulaSwiftUI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +150,7 @@
 			files = (
 				331CEBBE3319DDBC89EFD506 /* FormulaCore.framework in Embed Frameworks */,
 				508E7B4F120A9EE5B283686A /* FormulaSwiftUI.framework in Embed Frameworks */,
+				73E2539799220A4D3854A362 /* FormulaLCE.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,20 +180,30 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0955331D0C1482F18FCBA19A /* Callback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callback.swift; sourceTree = "<group>"; };
 		14196075AB5C1F0D194AC799 /* FormulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaView.swift; sourceTree = "<group>"; };
+		1C2F98C098A09AC7B023118E /* EffectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectTests.swift; sourceTree = "<group>"; };
+		26D3325D52AB159560EB1BE8 /* EffectFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectFixtures.swift; sourceTree = "<group>"; };
 		426D4793BF9FF7AE5E2FE6AC /* Formula.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formula.swift; sourceTree = "<group>"; };
 		43D5523229883A0DAF355372 /* SampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTests.swift; sourceTree = "<group>"; };
+		44AAFF20CB8A116025B959B2 /* RenderBoundaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderBoundaryTests.swift; sourceTree = "<group>"; };
+		467CC0C9663653320E209610 /* FormulaEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaEffects.swift; sourceTree = "<group>"; };
 		499BB5A9B9E78BA12863262E /* FormulaCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60DF4D8AD15B9C08EEAAE6FA /* FormulaSampleTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FormulaSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61FA92958ADFBD0D587A48CC /* FormulaSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CC7FD7B863B1F3E9B17B5B3 /* LCE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCE.swift; sourceTree = "<group>"; };
+		7935A32EB76E99AD9F7C94D0 /* FormulaScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaScope.swift; sourceTree = "<group>"; };
 		9F77F30D3512E845C4085D08 /* FormulaLCE.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaLCE.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADE25F65FF35B38C437C1E2A /* CallbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackTests.swift; sourceTree = "<group>"; };
 		B13445258ECB353BBE67730A /* HTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientTests.swift; sourceTree = "<group>"; };
+		B25264BE461D9AF5BD189B9A /* FormulaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaStore.swift; sourceTree = "<group>"; };
 		B852CE41BD73220F4D607E87 /* FormulaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaTests.swift; sourceTree = "<group>"; };
 		B8E7360968AFA16838867216 /* LCETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCETests.swift; sourceTree = "<group>"; };
 		BBF4008789A0C77B378FAF3D /* FormulaNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FormulaNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70F40AF9200BE45C6706BF3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D340500F09844699F2009C42 /* FormulaLCETests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FormulaLCETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D95D2674BE6F97C73EA02036 /* RenderingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingTests.swift; sourceTree = "<group>"; };
+		D9CDAE31D06ED9C9086D4907 /* FormulaContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormulaContext.swift; sourceTree = "<group>"; };
 		DA0199D3E9FE5068FCFDA2CC /* FormulaSample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FormulaSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E371453E9EA75BB233797C76 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		E8DD7ACE34B15C816037B7B1 /* FormulaNetworkingTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FormulaNetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85DF4080870DC96B0EBB7BFA /* FormulaCore.framework in Frameworks */,
+				5E2A7510DB680075D7929E14 /* FormulaSwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +258,7 @@
 			files = (
 				E5F162CD4B4C23C75DE2A05B /* FormulaCore.framework in Frameworks */,
 				7E38B910286628BF7E4BDBD3 /* FormulaSwiftUI.framework in Frameworks */,
+				860397E2CE0F92EE4BABB157 /* FormulaLCE.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +339,7 @@
 		7BF7F4AEC13F207058E415B2 /* FormulaSampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				44AAFF20CB8A116025B959B2 /* RenderBoundaryTests.swift */,
 				43D5523229883A0DAF355372 /* SampleTests.swift */,
 			);
 			path = FormulaSampleTests;
@@ -313,7 +356,11 @@
 		AA61BADCB9ABCCF42AE2577D /* FormulaCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				ADE25F65FF35B38C437C1E2A /* CallbackTests.swift */,
+				26D3325D52AB159560EB1BE8 /* EffectFixtures.swift */,
+				1C2F98C098A09AC7B023118E /* EffectTests.swift */,
 				B852CE41BD73220F4D607E87 /* FormulaTests.swift */,
+				D95D2674BE6F97C73EA02036 /* RenderingTests.swift */,
 			);
 			path = FormulaCoreTests;
 			sourceTree = "<group>";
@@ -329,7 +376,12 @@
 		C6023C1835C8226B2DB519D4 /* FormulaCore */ = {
 			isa = PBXGroup;
 			children = (
+				0955331D0C1482F18FCBA19A /* Callback.swift */,
 				426D4793BF9FF7AE5E2FE6AC /* Formula.swift */,
+				D9CDAE31D06ED9C9086D4907 /* FormulaContext.swift */,
+				467CC0C9663653320E209610 /* FormulaEffects.swift */,
+				7935A32EB76E99AD9F7C94D0 /* FormulaScope.swift */,
+				B25264BE461D9AF5BD189B9A /* FormulaStore.swift */,
 			);
 			path = FormulaCore;
 			sourceTree = "<group>";
@@ -436,6 +488,7 @@
 			dependencies = (
 				72F70679A7A382AC2A6D0FEF /* PBXTargetDependency */,
 				222A3583C2A9E0DEA50703F8 /* PBXTargetDependency */,
+				1EB057CE9A36B15D6F4799C5 /* PBXTargetDependency */,
 			);
 			name = FormulaSample;
 			packageProductDependencies = (
@@ -457,6 +510,7 @@
 			dependencies = (
 				0F0F18A0793EE80A2246C49F /* PBXTargetDependency */,
 				D4E24BABC3D99EF02E259CBD /* PBXTargetDependency */,
+				9F939AE754E80A573EA9F252 /* PBXTargetDependency */,
 			);
 			name = FormulaSampleTests;
 			packageProductDependencies = (
@@ -604,7 +658,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				876D512B44B231A864E35BAE /* Callback.swift in Sources */,
 				A1109C37B10B2681868305EF /* Formula.swift in Sources */,
+				D5AF1F102AF4648353B2E3AA /* FormulaContext.swift in Sources */,
+				A69CA5DE0BF37E8EA56E54C9 /* FormulaEffects.swift in Sources */,
+				2514E1EEAA948E73BEA1FF79 /* FormulaScope.swift in Sources */,
+				7229F39ACCF9AB8938C694AC /* FormulaStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +695,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B12997C4D58212796727500 /* RenderBoundaryTests.swift in Sources */,
 				5D02357F7825840360C2C16A /* SampleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,7 +704,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48C96DFCF52D4E1BF09D9B61 /* CallbackTests.swift in Sources */,
+				4807B05EACB7B8562BD3F54B /* EffectFixtures.swift in Sources */,
+				DCA3DAEDC36014E4F99D556B /* EffectTests.swift in Sources */,
 				7DC67B7608196526BF3331F5 /* FormulaTests.swift in Sources */,
+				2F5C03D61F54BC6EA10C4D16 /* RenderingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,6 +727,11 @@
 			isa = PBXTargetDependency;
 			target = 3AF0DC5C16380888D4B940B2 /* FormulaSample */;
 			targetProxy = 9163AE1D1383D00F3342C2DF /* PBXContainerItemProxy */;
+		};
+		1EB057CE9A36B15D6F4799C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E56CDB6D7B022FB6E8DE66A2 /* FormulaLCE */;
+			targetProxy = 588A60266127599B014C3F14 /* PBXContainerItemProxy */;
 		};
 		222A3583C2A9E0DEA50703F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -683,6 +752,11 @@
 			isa = PBXTargetDependency;
 			target = CE871A00F672CAB089BE5119 /* FormulaCore */;
 			targetProxy = 7850AA84792D08F3E0339DF7 /* PBXContainerItemProxy */;
+		};
+		9F939AE754E80A573EA9F252 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFD93FBE691E41B6A12A4D1C /* FormulaSwiftUI */;
+			targetProxy = F1A82F81E922FCE499AD5282 /* PBXContainerItemProxy */;
 		};
 		D349A3DA2C2F7E2D866666E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

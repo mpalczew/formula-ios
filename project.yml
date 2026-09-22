@@ -44,6 +44,7 @@ targets:
     dependencies:
       - target: FormulaCore
       - target: FormulaSwiftUI
+      - target: FormulaLCE
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.sample
       GENERATE_INFOPLIST_FILE: YES
@@ -81,6 +82,7 @@ targets:
     dependencies:
       - target: FormulaSample
       - target: FormulaCore
+      - target: FormulaSwiftUI
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.nimbusdev.formula.sample-tests
 schemes:

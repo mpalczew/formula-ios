@@ -20,6 +20,6 @@ let package = Package(
         .testTarget(name: "FormulaCoreTests", dependencies: ["FormulaCore"]),
         .testTarget(name: "FormulaLCETests", dependencies: ["FormulaLCE"]),
         .testTarget(name: "FormulaNetworkingTests", dependencies: ["FormulaNetworking"]),
-        .testTarget(name: "FormulaSampleTests", dependencies: ["FormulaSample"])
+        .testTarget(name: "FormulaSampleTests", dependencies: ["FormulaSample", "FormulaSwiftUI"])
     ]
 )
