@@ -1,6 +1,5 @@
 import FormulaCore
 
-/// Deliberately ignores cancellation so late-result protection is exercised.
 @MainActor
 final class ControlledValue<Value: Sendable> {
     private var continuation: CheckedContinuation<Value, Never>?
