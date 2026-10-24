@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Usage: bin/check [gate|harness|all]. No argument runs gates whose paths changed vs main; harness always runs.
+# Usage: bin/check [--staged] [gate|harness|all]. --staged (pre-commit) judges only the index, in a snapshot. No argument runs gates whose paths changed vs main; harness always runs.
 set -u
 cd "$(dirname "$0")/.."
 
@@ -23,6 +23,32 @@ run_harness() {
   echo "✓ harness: .claude holds only the skills link"
 }
 
+STAGED=
+if [ "${1:-}" = --staged ]; then STAGED=1; shift; fi
+
+file_list() {
+  if [ -n "$STAGED" ]; then
+    git diff --cached --name-only --no-renames --diff-filter=ACMRD
+  else
+    local base
+    base=$(git merge-base HEAD main 2>/dev/null || echo HEAD)
+    { git diff --name-only "$base"; git ls-files --others --exclude-standard; } 2>/dev/null
+  fi
+}
+
+# Staged mode judges the index: gates run in a snapshot of it. The snapshot dir persists
+# (build caches live there); rsync keeps it equal to the index and spares build outputs.
+enter_snapshot() {
+  local snap
+  snap="$(cd "$(git rev-parse --git-common-dir)" && pwd)/staged-snapshot"
+  SNAP_TMP=$(mktemp -d); tmp=$SNAP_TMP
+  trap 'rm -rf "$SNAP_TMP"' EXIT
+  git checkout-index -a --prefix="$tmp/"
+  mkdir -p "$snap"
+  rsync -rlc --delete --exclude .build "$tmp/" "$snap/"
+  cd "$snap" || exit 1
+}
+
 GATES="swift"
 gate_paths_swift="Package.swift Sources Tests"
 
@@ -30,11 +56,7 @@ step_swift_build() { swift build 2>&1; }
 step_swift_test() { swift test 2>&1; }
 steps_swift="build test"
 
-changed() {
-  local base
-  base=$(git merge-base HEAD main 2>/dev/null || echo HEAD)
-  { git diff --name-only "$base"; git ls-files --others --exclude-standard; } 2>/dev/null
-}
+changed() { file_list; }
 
 run_gate() {
   local g=$1 s out
@@ -62,6 +84,7 @@ else
   done
 fi
 
+[ -n "$STAGED" ] && [ -n "$sel" ] && enter_snapshot
 rc=0
 for g in $sel; do
   case " $GATES " in *" $g "*) ;; *) echo "unknown gate: $g (gates: $GATES harness)" >&2; exit 2;; esac
