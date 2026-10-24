@@ -1,7 +1,27 @@
 #!/usr/bin/env bash
-# Usage: bin/check [gate|all]. No argument runs gates whose paths changed vs main.
+# Usage: bin/check [gate|harness|all]. No argument runs gates whose paths changed vs main; harness always runs.
 set -u
 cd "$(dirname "$0")/.."
+
+git config core.hooksPath >/dev/null 2>&1 || git config core.hooksPath .githooks
+
+harness_bad() {
+  git ls-files .claude | rg -v '^\.claude/skills$'
+  if [ -e .claude/skills ] || [ -L .claude/skills ]; then
+    [ "$(readlink .claude/skills)" = "../.agents/skills" ] || echo .claude/skills
+  fi
+}
+
+run_harness() {
+  local bad
+  bad=$(harness_bad)
+  if [ -n "$bad" ]; then
+    printf '%s\n' "$bad" >&2
+    echo "✗ harness: .claude must hold only the skills link" >&2
+    exit 1
+  fi
+  echo "✓ harness: .claude holds only the skills link"
+}
 
 GATES="swift"
 gate_paths_swift="Package.swift Sources Tests"
@@ -28,6 +48,8 @@ run_gate() {
 }
 
 arg=${1:-}
+case "$arg" in ""|all|harness) run_harness ;; esac
+[ "$arg" = harness ] && exit 0
 if [ "$arg" = all ]; then sel=$GATES
 elif [ -n "$arg" ]; then sel=$arg
 else
@@ -42,7 +64,7 @@ fi
 
 rc=0
 for g in $sel; do
-  case " $GATES " in *" $g "*) ;; *) echo "unknown gate: $g (gates: $GATES)" >&2; exit 2;; esac
+  case " $GATES " in *" $g "*) ;; *) echo "unknown gate: $g (gates: $GATES harness)" >&2; exit 2;; esac
   run_gate "$g" || rc=1
 done
 exit $rc
