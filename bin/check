@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # Usage: bin/check [--staged] [gate|harness|all]. --staged (pre-commit) judges only the index, in a snapshot. No argument runs gates whose paths changed vs main; harness always runs.
+# Off macOS the swift gate runs on a Mac over ssh (CHECK_MAC_HOST, default air): the checked tree is
+# rsynced to a fixed directory there and bin/check swift runs on it. An unreachable Mac fails the check.
+# shellcheck disable=SC2034,SC2329 # gate tables and step functions are looked up by name
 set -u
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/.." || exit 1
+OS=$(uname -s)
+REAL_ROOT=$(pwd -P)
 
 git config core.hooksPath >/dev/null 2>&1 || git config core.hooksPath .githooks
 
@@ -45,8 +50,36 @@ enter_snapshot() {
   trap 'rm -rf "$SNAP_TMP"' EXIT
   git checkout-index -a --prefix="$tmp/"
   mkdir -p "$snap"
+  if [ "$OS" != Darwin ]; then SHIP_SRC=$tmp; return; fi
   rsync -rlc --delete --exclude .build "$tmp/" "$snap/"
   cd "$snap" || exit 1
+}
+
+# Ship the checked tree (the index export when staged, else tracked plus untracked files) to a
+# per-checkout directory on the Mac so .build stays warm, and run the gate there. rsync -c rewrites
+# only changed files; /.build and /.git are excluded so --delete keeps them.
+run_on_mac() {
+  local host=${CHECK_MAC_HOST:-air} src tmp="" dir rc=0 sum
+  local ssh_opts=(-o BatchMode=yes -o ConnectTimeout=5)
+  sum=$(printf %s "$REAL_ROOT" | cksum | cut -d' ' -f1)
+  dir="Library/Caches/swift-formula-remote/$(hostname -s)-$(basename "$REAL_ROOT")-$sum"
+  if [ -n "$STAGED" ]; then
+    src=$SHIP_SRC
+  else
+    tmp=$(mktemp -d); src=$tmp
+    git ls-files -co --exclude-standard -z | rsync -a0 --ignore-missing-args --files-from=- ./ "$src/" || rc=1
+  fi
+  # shellcheck disable=SC2029 # $dir expands here, by design
+  if [ "$rc" = 0 ] && ssh "${ssh_opts[@]}" "$host" "mkdir -p $dir && cd $dir && { [ -d .git ] || git init -q; }" &&
+    rsync -rlpc --delete -e "ssh ${ssh_opts[*]}" --exclude /.build --exclude /.git "$src/" "$host:$dir/"; then
+    # shellcheck disable=SC2029
+    ssh "${ssh_opts[@]}" "$host" "export PATH=/opt/homebrew/bin:\$PATH LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8; cd $dir && CHECK_LABEL=' (on $host)' bin/check $1" || rc=1
+  else
+    echo "✗ $1: could not ship the tree to $host (set CHECK_MAC_HOST)" >&2
+    rc=1
+  fi
+  [ -z "$tmp" ] || rm -rf "$tmp"
+  return $rc
 }
 
 GATES="swift"
@@ -62,10 +95,10 @@ run_gate() {
   local g=$1 s out
   for s in $(eval echo "\$steps_$g"); do
     if ! out=$("step_${g}_${s}"); then
-      printf '✗ %s: %s\n%s\n' "$g" "$s" "$out"
+      printf '✗ %s: %s%s\n%s\n' "$g" "$s" "${CHECK_LABEL:-}" "$out"
       return 1
     fi
-    printf '✓ %s: %s\n' "$g" "$s"
+    printf '✓ %s: %s%s\n' "$g" "$s" "${CHECK_LABEL:-}"
   done
 }
 
@@ -88,6 +121,6 @@ fi
 rc=0
 for g in $sel; do
   case " $GATES " in *" $g "*) ;; *) echo "unknown gate: $g (gates: $GATES harness)" >&2; exit 2;; esac
-  run_gate "$g" || rc=1
+  if [ "$OS" != Darwin ] && [ "$g" = swift ]; then run_on_mac "$g" || rc=1; else run_gate "$g" || rc=1; fi
 done
 exit $rc
