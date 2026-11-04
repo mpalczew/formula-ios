@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import FormulaCore
 
@@ -31,21 +32,22 @@ final class ReentrancyTests: XCTestCase {
     @MainActor
     func testNestedSendsPublishInOrder() {
         let store = FormulaStore(formula: Counter(), initialState: 0)
-        var values: [Int] = [store.renderModel]
-        store.observeRenderChanges { values.append($0) }
+        var values: [Int] = []
+        let subscription = store.$renderModel.sink { values.append($0) }
         store.send { state in
             state = 1
             store.send { $0 += 1 }
         }
         XCTAssertEqual(values, [0, 1, 2])
         XCTAssertEqual(store.state, 2)
+        withExtendedLifetime(subscription) {}
     }
 
     @MainActor
     func testPublisherCallbackQueuesUntilPublicationFinishes() {
         let store = FormulaStore(formula: Counter(), initialState: 0)
-        var values: [Int] = [store.renderModel]
-        store.observeRenderChanges { value in
+        var values: [Int] = []
+        let subscription = store.$renderModel.sink { value in
             values.append(value)
             if value == 1 {
                 store.send { $0 += 1 }
@@ -57,6 +59,7 @@ final class ReentrancyTests: XCTestCase {
         XCTAssertEqual(values, [0, 1, 2])
         XCTAssertEqual(store.state, 2)
         XCTAssertEqual(store.renderModel, 2)
+        withExtendedLifetime(subscription) {}
     }
 }
 

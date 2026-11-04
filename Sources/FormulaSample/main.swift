@@ -1,9 +1,7 @@
 import FormulaCore
 import FormulaLCE
-#if canImport(SwiftUI)
 import FormulaSwiftUI
 import SwiftUI
-#endif
 
 public struct SharedHeader: Formula {
     public struct State { public var title: String }
@@ -78,10 +76,9 @@ public struct SettingsScreen: Formula {
     }
 }
 
-#if canImport(SwiftUI)
 public struct HomeScreenView: View {
-    @State private var store: FormulaStore<HomeScreen>
-    public init(store: FormulaStore<HomeScreen>) { _store = State(wrappedValue: store) }
+    @StateObject private var store: FormulaStore<HomeScreen>
+    public init(store: FormulaStore<HomeScreen>) { _store = StateObject(wrappedValue: store) }
 
     public var body: some View {
         FormulaView(store: store) { model in
@@ -103,8 +100,8 @@ public struct HomeScreenView: View {
 }
 
 public struct SettingsScreenView: View {
-    @State private var store: FormulaStore<SettingsScreen>
-    public init(store: FormulaStore<SettingsScreen>) { _store = State(wrappedValue: store) }
+    @StateObject private var store: FormulaStore<SettingsScreen>
+    public init(store: FormulaStore<SettingsScreen>) { _store = StateObject(wrappedValue: store) }
 
     public var body: some View {
         FormulaView(store: store) { model in
@@ -139,4 +136,3 @@ public struct FormulaSampleApp: App {
 }
 
 FormulaSampleApp.main()
-#endif

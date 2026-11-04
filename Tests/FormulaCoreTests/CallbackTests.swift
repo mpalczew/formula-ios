@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import FormulaCore
 
@@ -7,13 +8,14 @@ final class CallbackTests: XCTestCase {
         let store = FormulaStore(formula: CaptureFormula(), initialState: .init())
         let old = store.renderModel
         var updates = 0
-        store.observeRenderChanges { _ in updates += 1 }
+        let subscription = store.objectWillChange.sink { updates += 1 }
         store.send { $0.amount = 9 }
         XCTAssertEqual(old, store.renderModel)
         XCTAssertEqual(updates, 0)
         old.add()
         XCTAssertEqual(store.state.total, 9)
         XCTAssertEqual(updates, 1)
+        withExtendedLifetime(subscription) {}
     }
 
     @MainActor

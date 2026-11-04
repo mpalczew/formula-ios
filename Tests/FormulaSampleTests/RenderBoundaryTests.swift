@@ -1,4 +1,3 @@
-#if canImport(SwiftUI)
 import FormulaCore
 import FormulaSwiftUI
 import SwiftUI
@@ -106,4 +105,3 @@ private struct DisplayFormula: Formula {
         .init(sibling: state.sibling, child: state.child)
     }
 }
-#endif

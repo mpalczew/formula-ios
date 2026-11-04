@@ -1,9 +1,8 @@
-#if canImport(SwiftUI)
 import FormulaCore
 import SwiftUI
 
 public struct FormulaView<F: Formula, Content: View>: View {
-    private let store: FormulaStore<F>
+    @ObservedObject private var store: FormulaStore<F>
     private let content: (F.RenderModel) -> Content
 
     public init(store: FormulaStore<F>, @ViewBuilder content: @escaping (F.RenderModel) -> Content) {
@@ -33,4 +32,3 @@ public struct FormulaContent<Model: Equatable, Content: View>: Equatable {
 extension FormulaContent: View {
     public var body: some View { content(model) }
 }
-#endif

@@ -1,13 +1,11 @@
-import Observation
+import Combine
 
 @MainActor
-@Observable
-public final class FormulaStore<F: Formula> {
-    public private(set) var renderModel: F.RenderModel
+public final class FormulaStore<F: Formula>: ObservableObject {
+    @Published public private(set) var renderModel: F.RenderModel
     public var state: F.State { runtime.state }
     public var activeEffectCount: Int { runtime.effects.activeCount }
     private let runtime: FormulaRuntime<F>
-    @ObservationIgnored private var renderObserver: ((F.RenderModel) -> Void)?
 
     public init(formula: F, initialState: F.State) {
         let runtime = FormulaRuntime(formula: formula, state: initialState)
@@ -16,7 +14,6 @@ public final class FormulaStore<F: Formula> {
         runtime.onRender = { [weak self] model in
             guard let self, self.renderModel != model else { return }
             self.renderModel = model
-            self.renderObserver?(model)
         }
     }
 
@@ -26,20 +23,6 @@ public final class FormulaStore<F: Formula> {
     /// Waits for all started effects, including canceled operations, to finish.
     /// Useful with controllable test clients; this does not advance time for them.
     public func waitForEffects() async { await runtime.effects.waitUntilIdle() }
-
-    /// Test-only observation seam, not part of the public API. Notifies, in order
-    /// and synchronously, with every render model actually published (i.e. after
-    /// the same de-duplication the public `renderModel` already applies).
-    ///
-    /// This exists because Observation's `withObservationTracking(_:onChange:)`
-    /// fires its `onChange` closure before the tracked property's storage is
-    /// updated (willSet timing) and types that closure `@Sendable`, which makes it
-    /// unsuitable for synchronously collecting the exact sequence of published
-    /// values the old Combine-based tests asserted on. This hook replaces that
-    /// Combine mechanic with a plain, deterministic, same-actor callback.
-    func observeRenderChanges(_ observer: @escaping (F.RenderModel) -> Void) {
-        renderObserver = observer
-    }
 }
 
 @MainActor
