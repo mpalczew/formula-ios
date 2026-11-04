@@ -1,4 +1,3 @@
-import Combine
 import XCTest
 @testable import FormulaCore
 
@@ -8,26 +7,24 @@ final class RenderingTests: XCTestCase {
         let probe = EvaluationProbe()
         let store = FormulaStore(formula: CountingFormula(probe: probe), initialState: 0)
         XCTAssertEqual(probe.count, 1)
-        var values: [Int] = []
-        let subscription = store.$renderModel.sink { values.append($0) }
+        var values: [Int] = [store.renderModel]
+        store.observeRenderChanges { values.append($0) }
         store.send { _ in }
         store.send { $0 = 1 }
         store.send { $0 = 1 }
         XCTAssertEqual(values, [0, 1])
-        withExtendedLifetime(subscription) {}
     }
 
     @MainActor
     func testHiddenStateChangeDoesNotPublishAViewUpdate() {
         let store = FormulaStore(formula: HiddenStateFormula(), initialState: .init())
         var updates = 0
-        let subscription = store.objectWillChange.sink { updates += 1 }
+        store.observeRenderChanges { _ in updates += 1 }
 
         store.send { $0.hidden += 1 }
 
         XCTAssertEqual(store.state.hidden, 1)
         XCTAssertEqual(updates, 0)
-        withExtendedLifetime(subscription) {}
     }
 }
 

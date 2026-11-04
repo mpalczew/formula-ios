@@ -1,4 +1,3 @@
-import Combine
 import XCTest
 @testable import FormulaCore
 
@@ -39,8 +38,8 @@ final class EffectTests: XCTestCase {
         await new.waitUntilStarted()
         XCTAssertEqual(store.activeEffectCount, 1)
         let publishedNew = expectation(description: "Replacement result published")
-        var published: [Int] = []
-        let subscription = store.$renderModel.sink { model in
+        var published: [Int] = [store.renderModel.value]
+        store.observeRenderChanges { model in
             published.append(model.value)
             if model.value == 20 { publishedNew.fulfill() }
         }
@@ -52,7 +51,6 @@ final class EffectTests: XCTestCase {
         XCTAssertEqual(published, [0, 20])
         XCTAssertEqual(store.state.value, 20)
         XCTAssertEqual(store.activeEffectCount, 0)
-        withExtendedLifetime(subscription) {}
     }
 
     @MainActor
