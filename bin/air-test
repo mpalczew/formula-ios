@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+host=${AIR_HOST:-air}
+dir=Library/Caches/swift-formula-dev
+rsync -a --delete --exclude .build --exclude .git ./ "$host:$dir/"
+ssh "$host" "export PATH=/opt/homebrew/bin:\$PATH LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8; cd $dir && swift build && swift test ${*:-}"

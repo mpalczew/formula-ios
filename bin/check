@@ -55,6 +55,10 @@ gate_paths_swift="Package.swift Sources Tests"
 step_swift_build() { swift build 2>&1; }
 step_swift_test() { swift test 2>&1; }
 steps_swift="build test"
+if [ "$(uname -s)" != Darwin ]; then
+  step_swift_air() { bin/air-test 2>&1; }
+  steps_swift="air"
+fi
 
 changed() { file_list; }
 

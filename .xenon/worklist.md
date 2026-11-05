@@ -2,7 +2,6 @@
 
 ## Open
 
-- Commit phase 1 (Input, child-owned state, skipping unchanged children). It is uncommitted in the working tree; all suites passed on air on 2026-11-05. The pre-commit hook runs `swift build` locally and z2 has no Swift, so the commit is blocked: decide between `--no-verify` after an air run, or a pre-commit check that runs on air.
 - Require `Formula.Input: Equatable` (Formula Android always compares inputs with `equals()`). `Void` cannot conform, so add an empty stand-in type that `child(_:)` and `FormulaStore(formula:)` default to. Name to pick: `NoInput` (recommended), `Unit`, or `EmptyInput`. Then drop the dynamic `any Equatable` check in `FormulaScope.swift`.
 - Phase 2: declared actions replace `context.effect` / `cancelEffect`, as in Formula Android (`docs/actions.md`). Agreed shape: `context.action(key:) { try await … } onEvent: { state, result in … }` with `Result`, `context.stream { AsyncSequence } onEvent:`, `onInit`, `onTerminate`. Started when first declared, kept while declared, cancelled when not declared, restarted when the key changes. Reuse the scope's seen-during-render sweep.
 - Phase 3: transitions can queue side effects (`effects.run { … }`) that run after the state change is committed, FIFO. Needed so a child can call a parent callback from its input without re-entering the runtime.
@@ -13,4 +12,4 @@
 
 ## Someday
 
-- `bin/air-test`: rsync the tree to air and run `swift build` and `swift test` there in one command.
+- none
