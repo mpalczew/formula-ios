@@ -5,33 +5,33 @@ import XCTest
 final class ReentrancyTests: XCTestCase {
     @MainActor
     func testQueuedCallbackDoesNotAccessRemovedChildState() {
-        let store = FormulaStore(formula: IndexedParent(), initialState: .init())
-        let increment = store.renderModel[0]
+        let store = FormulaStore(formula: IndexedParent())
+        let increment = store.renderModel[0].increment
         store.send { state in
-            state.children.removeAll()
+            state.ids.removeAll()
             increment()
         }
-        XCTAssertTrue(store.state.children.isEmpty)
+        XCTAssertTrue(store.state.ids.isEmpty)
         XCTAssertTrue(store.renderModel.isEmpty)
     }
 
     @MainActor
     func testQueuedCallbackDoesNotMutateReplacementAtSameIndex() {
-        let store = FormulaStore(formula: IndexedParent(), initialState: .init())
-        let increment = store.renderModel[0]
+        let store = FormulaStore(formula: IndexedParent())
+        let increment = store.renderModel[0].increment
         store.send { state in
-            state.children = [.init(id: 2, count: 10)]
+            state.ids = [2]
             increment()
         }
-        XCTAssertEqual(store.state.children[0].count, 10)
-        XCTAssertNotEqual(increment, store.renderModel[0])
-        store.renderModel[0]()
-        XCTAssertEqual(store.state.children[0].count, 11)
+        XCTAssertEqual(store.renderModel[0].count, 0)
+        XCTAssertNotEqual(increment, store.renderModel[0].increment)
+        store.renderModel[0].increment()
+        XCTAssertEqual(store.renderModel[0].count, 1)
     }
 
     @MainActor
     func testNestedSendsPublishInOrder() {
-        let store = FormulaStore(formula: Counter(), initialState: 0)
+        let store = FormulaStore(formula: Counter())
         var values: [Int] = []
         let subscription = store.$renderModel.sink { values.append($0) }
         store.send { state in
@@ -45,7 +45,7 @@ final class ReentrancyTests: XCTestCase {
 
     @MainActor
     func testPublisherCallbackQueuesUntilPublicationFinishes() {
-        let store = FormulaStore(formula: Counter(), initialState: 0)
+        let store = FormulaStore(formula: Counter())
         var values: [Int] = []
         let subscription = store.$renderModel.sink { value in
             values.append(value)
@@ -64,21 +64,23 @@ final class ReentrancyTests: XCTestCase {
 }
 
 private struct Counter: Formula {
-    func render(state: Int, context: FormulaContext<Int>) -> Int { state }
+    func initialState(input: Void) -> Int { 0 }
+    func render(input: Void, state: Int, context: FormulaContext<Self>) -> Int { state }
 }
 
 private struct IndexedChild: Formula {
-    struct State { let id: Int; var count = 0 }
-    func render(state: State, context: FormulaContext<State>) -> Callback<Void> {
-        context.callback { $0.count += 1 }
+    struct State { var count = 0 }
+    struct RenderModel: Equatable { let count: Int; let increment: Callback<Void> }
+    func initialState(input: Int) -> State { State() }
+    func render(input: Int, state: State, context: FormulaContext<Self>) -> RenderModel {
+        .init(count: state.count, increment: context.callback { $0.count += 1 })
     }
 }
 
 private struct IndexedParent: Formula {
-    struct State { var children = [IndexedChild.State(id: 1)] }
-    func render(state: State, context: FormulaContext<State>) -> [Callback<Void>] {
-        state.children.indices.map { index in
-            context.child(IndexedChild(), state: \State.children[index], key: state.children[index].id)
-        }
+    struct State { var ids = [1] }
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> [IndexedChild.RenderModel] {
+        state.ids.map { context.child(IndexedChild(), input: $0, key: $0) }
     }
 }

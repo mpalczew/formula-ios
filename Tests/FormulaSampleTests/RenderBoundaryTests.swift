@@ -11,7 +11,7 @@ import AppKit
 final class RenderBoundaryTests: XCTestCase {
     @MainActor
     func testChangingSiblingDoesNotRenderUnchangedChild() async {
-        let store = FormulaStore(formula: DisplayFormula(), initialState: .init())
+        let store = FormulaStore(formula: DisplayFormula())
         let probe = RenderProbe()
         let initial = expectation(description: "Initial child rendered")
         probe.childExpectation = ("initial", initial)
@@ -101,7 +101,8 @@ private final class RenderProbe {
 private struct DisplayFormula: Formula {
     struct State { var sibling = 0; var child = "initial" }
     struct RenderModel: Equatable { let sibling: Int; let child: String }
-    func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         .init(sibling: state.sibling, child: state.child)
     }
 }

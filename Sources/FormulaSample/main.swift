@@ -4,18 +4,22 @@ import FormulaSwiftUI
 import SwiftUI
 
 public struct SharedHeader: Formula {
+    public typealias Input = String
     public struct State { public var title: String }
     public struct RenderModel: Equatable { public let title: String; public let onTap: Callback<Void> }
     public init() {}
 
-    @MainActor public func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    @MainActor public func initialState(input: String) -> State { State(title: input) }
+
+    @MainActor public func onInputChanged(old: String, new: String, state: inout State) { state.title = new }
+
+    @MainActor public func render(input: String, state: State, context: FormulaContext<Self>) -> RenderModel {
         RenderModel(title: state.title, onTap: context.callback { $0.title += " *" })
     }
 }
 
 public struct HomeScreen: Formula {
     public struct State {
-        public var header = SharedHeader.State(title: "Home")
         public var count = 0
         public var message: String? = nil
         public var items: UCT<[String]> = .loading()
@@ -40,9 +44,11 @@ public struct HomeScreen: Formula {
     }
     public init() {}
 
-    @MainActor public func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    @MainActor public func initialState(input: Void) -> State { State() }
+
+    @MainActor public func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         RenderModel(
-            header: context.child(SharedHeader(), state: \.header),
+            header: context.child(SharedHeader(), input: "Home"),
             count: state.count,
             message: state.message,
             items: Items(state.items),
@@ -57,7 +63,6 @@ public struct HomeScreen: Formula {
 
 public struct SettingsScreen: Formula {
     public struct State {
-        public var header = SharedHeader.State(title: "Settings")
         public var enabled = false
     }
     public struct RenderModel: Equatable {
@@ -67,9 +72,11 @@ public struct SettingsScreen: Formula {
     }
     public init() {}
 
-    @MainActor public func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    @MainActor public func initialState(input: Void) -> State { State() }
+
+    @MainActor public func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         RenderModel(
-            header: context.child(SharedHeader(), state: \.header),
+            header: context.child(SharedHeader(), input: "Settings"),
             enabled: state.enabled,
             toggle: context.callback { $0.enabled.toggle() }
         )
@@ -126,9 +133,9 @@ public struct FormulaSampleApp: App {
     public var body: some Scene {
         WindowGroup {
             TabView {
-                NavigationStack { HomeScreenView(store: FormulaStore(formula: HomeScreen(), initialState: .init())) }
+                NavigationStack { HomeScreenView(store: FormulaStore(formula: HomeScreen())) }
                     .tabItem { Label("Home", systemImage: "house") }
-                NavigationStack { SettingsScreenView(store: FormulaStore(formula: SettingsScreen(), initialState: .init())) }
+                NavigationStack { SettingsScreenView(store: FormulaStore(formula: SettingsScreen())) }
                     .tabItem { Label("Settings", systemImage: "gear") }
             }
         }

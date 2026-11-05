@@ -5,7 +5,7 @@ import XCTest
 final class CallbackTests: XCTestCase {
     @MainActor
     func testEqualCallbackUsesLatestCapturesWithoutPublishing() {
-        let store = FormulaStore(formula: CaptureFormula(), initialState: .init())
+        let store = FormulaStore(formula: CaptureFormula())
         let old = store.renderModel
         var updates = 0
         let subscription = store.objectWillChange.sink { updates += 1 }
@@ -20,14 +20,14 @@ final class CallbackTests: XCTestCase {
 
     @MainActor
     func testCallbackIdentityIsDistinctAcrossStores() {
-        let first = FormulaStore(formula: CaptureFormula(), initialState: .init())
-        let second = FormulaStore(formula: CaptureFormula(), initialState: .init())
+        let first = FormulaStore(formula: CaptureFormula())
+        let second = FormulaStore(formula: CaptureFormula())
         XCTAssertNotEqual(first.renderModel.add, second.renderModel.add)
     }
 
     @MainActor
     func testKeyedCallbacksSurviveReorderingAndInvalidateRemovedItems() {
-        let store = FormulaStore(formula: RowsFormula(), initialState: .init())
+        let store = FormulaStore(formula: RowsFormula())
         let original = store.renderModel
         store.send { $0.ids.reverse() }
         XCTAssertEqual(original[0], store.renderModel[1])
@@ -43,7 +43,7 @@ final class CallbackTests: XCTestCase {
 
     @MainActor
     func testCallbackDoesNotRetainStore() {
-        var store: FormulaStore<CaptureFormula>? = .init(formula: CaptureFormula(), initialState: .init())
+        var store: FormulaStore<CaptureFormula>? = .init(formula: CaptureFormula())
         let reference = WeakReference(store)
         let callback = store!.renderModel.add
         store = nil
@@ -55,14 +55,16 @@ final class CallbackTests: XCTestCase {
 private struct CaptureFormula: Formula {
     struct State { var amount = 1; var total = 0 }
     struct RenderModel: Equatable { let total: Int; let add: Callback<Void> }
-    func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         .init(total: state.total, add: context.callback { $0.total += state.amount })
     }
 }
 
 private struct RowsFormula: Formula {
     struct State { var ids = [1, 2]; var selection: String? }
-    func render(state: State, context: FormulaContext<State>) -> [Callback<String>] {
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> [Callback<String>] {
         state.ids.map { id in
             context.callback(key: id) { state, value in state.selection = "\(id):\(value)" }
         }

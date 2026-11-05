@@ -6,7 +6,7 @@ final class RenderingTests: XCTestCase {
     @MainActor
     func testInitialModelIsEvaluatedOnceAndNoopDoesNotPublish() {
         let probe = EvaluationProbe()
-        let store = FormulaStore(formula: CountingFormula(probe: probe), initialState: 0)
+        let store = FormulaStore(formula: CountingFormula(probe: probe))
         XCTAssertEqual(probe.count, 1)
         var values: [Int] = []
         let subscription = store.$renderModel.sink { values.append($0) }
@@ -19,7 +19,7 @@ final class RenderingTests: XCTestCase {
 
     @MainActor
     func testHiddenStateChangeDoesNotPublishAViewUpdate() {
-        let store = FormulaStore(formula: HiddenStateFormula(), initialState: .init())
+        let store = FormulaStore(formula: HiddenStateFormula())
         var updates = 0
         let subscription = store.objectWillChange.sink { updates += 1 }
 
@@ -36,7 +36,8 @@ private final class EvaluationProbe { var count = 0 }
 
 private struct CountingFormula: Formula {
     let probe: EvaluationProbe
-    func render(state: Int, context: FormulaContext<Int>) -> Int {
+    func initialState(input: Void) -> Int { 0 }
+    func render(input: Void, state: Int, context: FormulaContext<Self>) -> Int {
         probe.count += 1
         return state
     }
@@ -46,7 +47,8 @@ private struct HiddenStateFormula: Formula {
     struct State { var hidden = 0 }
     struct RenderModel: Equatable { let title: String }
 
-    func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         .init(title: "Unchanged")
     }
 }

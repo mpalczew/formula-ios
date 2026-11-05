@@ -22,10 +22,13 @@ struct Counter: Formula {
         let increment: Callback<Void>
     }
 
+    func initialState(input: Void) -> State { State() }
+
     @MainActor
     func render(
+        input: Void,
         state: State,
-        context: FormulaContext<State>
+        context: FormulaContext<Self>
     ) -> RenderModel {
         RenderModel(
             count: state.count,
@@ -35,9 +38,42 @@ struct Counter: Formula {
         )
     }
 }
+
+let store = FormulaStore(formula: Counter())
 ```
 
-The formula does not expose a mutable state object. The runtime applies the callback mutation, stores the new value, and evaluates the formula again.
+A formula declares an `Input`, a `State`, and an equatable `RenderModel`. The input
+comes from the parent (or from `FormulaStore(formula:input:)` at the root) and is
+passed to `initialState(input:)` and `render`. The formula does not expose a mutable
+state object. The runtime applies the callback mutation, stores the new value, and
+evaluates the formula again.
+
+## Input
+
+```swift
+struct Greeting: Formula {
+    struct State { var title: String }
+
+    func initialState(input: String) -> State { State(title: input) }
+
+    func onInputChanged(old: String, new: String, state: inout State) {
+        state.title = new
+    }
+
+    func render(input: String, state: State, context: FormulaContext<Self>) -> String {
+        state.title
+    }
+}
+
+store.update(input: "Grace")
+```
+
+When the input changes, the runtime calls `onInputChanged` before rendering; the
+default does nothing. Inputs are compared when they are `Equatable`; `Void` is always
+equal; any other input counts as changed on every parent render. At the root,
+`store.update(input:)` does nothing when the input is equal. Use `StatelessFormula`
+for a formula with no state: implement `render(input:context:)` and declare `Input`
+and `RenderModel`.
 
 ## Callbacks and equality
 
@@ -96,37 +132,46 @@ Formula does not promise to suppress those updates or skip formula evaluation.
 
 ## Composition
 
-Keep a formula small by giving it child formulas:
+Keep a formula small by giving it child formulas. Each child owns its state:
 
 ```swift
 struct Screen: Formula {
-    struct State {
-        var header = Header.State(title: "Products")
-        var list = ProductList.State()
-    }
+    struct State { var query = "" }
 
     struct RenderModel: Equatable {
         let header: Header.RenderModel
         let list: ProductList.RenderModel
     }
 
+    func initialState(input: Void) -> State { State() }
+
     @MainActor
-    func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         RenderModel(
-            header: context.child(Header(), state: \.header),
-            list: context.child(ProductList(), state: \.list)
+            header: context.child(Header(), input: "Products"),
+            list: context.child(ProductList(), input: state.query)
         )
     }
 }
 ```
 
-`context.child` scopes the child formula to a writable key path. The child owns its
-callbacks and effects. The parent only owns composition and cross-child coordination.
-Omit a child from an evaluation to end its lifetime: callbacks become inert and
-its effects are canceled. A later child at the same path gets fresh identities.
-Use `key:` to distinguish logical instances at the same path. Changing this key
-invalidates the previous lifetime; it does not reset the state stored at the path.
-Sibling scopes never share callbacks or effect keys.
+A child's identity is its formula type plus an optional `key:`. It starts from
+`initialState(input:)` the first time a render declares it and keeps that state while
+it stays declared. Omit a child from a render to end its lifetime: its state is
+dropped, its callbacks become inert, and its effects are canceled. Declaring it again
+starts fresh. Use `key:` to run several instances of one formula type. Declaring the
+same type and key twice in one render is a programming error.
+
+A child talks back to its parent through callbacks in its input. `Callback` is
+equatable by identity, so such an input stays equal between renders.
+
+When a parent re-renders, a child is not rendered again if its input is equal and
+neither it nor any descendant had a transition since its last render. The parent
+receives the child's previous render model. Its callbacks and descendants stay alive.
+A transition in a child or grandchild re-renders its ancestors up to the root, but not
+unchanged siblings. Because a skipped child does not run `render`, anything that
+affects its model must be part of its input or state, not captured from the formula
+value or the environment.
 
 ## Effects and networking
 
@@ -155,7 +200,7 @@ reach into another formula, or bypass the runtime. Catch errors in the operation
 and return an explicit error-state mutation.
 
 An effect key replaces the previous effect with that key within the same child
-scope. Unkeyed effects run independently. `context.cancelEffect(key:)` cancels a
+scope. An effect mutates the state of the formula that declared it. Unkeyed effects run independently. `context.cancelEffect(key:)` cancels a
 specific request; `context.cancelEffects()` includes descendants.
 `store.cancelEffects()` cancels the entire tree. Cancellation is cooperative for
 the operation itself, but the runtime rejects its result even if it ignores
@@ -192,7 +237,7 @@ Test formulas without rendering SwiftUI:
 ```swift
 @MainActor
 func testIncrement() {
-    let store = FormulaStore(formula: Counter(), initialState: .init())
+    let store = FormulaStore(formula: Counter())
     store.renderModel.increment()
     XCTAssertEqual(store.state.count, 1)
 }
@@ -207,7 +252,7 @@ call it from one of the store's own effects, which would wait for itself.
 See `Tests/FormulaCoreTests/EffectFixtures.swift` and `EffectTests.swift` for complete
 examples without sleeps or scheduler guesses.
 
-Test child callbacks through the parent store to prove scope ownership. Test clients
+Observe child state through render models; the store only exposes the root state. Test child callbacks through the parent store to prove scope ownership. Test clients
 separately with deterministic fakes. Assert hidden-state changes do not publish,
 old callbacks use fresh captures, sibling identities stay distinct, obsolete results
 are rejected, and child removal invalidates old callbacks.
@@ -222,6 +267,8 @@ are rejected, and child removal invalidates old callbacks.
 - Derive equatable display values from non-equatable domain state. For example,
   `UCT` carries `Void` and `any Error`; the sample maps it to a display enum.
   Do not claim arbitrary errors are equal merely to enable synthesis.
+- Parent-owned child state (`state: \.child` key paths) is gone. Move the child's state
+  into the child, pass what it needs as `input:`, and pass callbacks for events.
 - Formula contexts are supplied by the runtime; test through `FormulaStore` rather
   than constructing an unscoped context.
 
@@ -235,3 +282,4 @@ are rejected, and child removal invalidates old callbacks.
 - Network code lives in clients, not views or renderers.
 - Split a formula when it has an independent state machine, effect set, or reusable UI.
 - Compose children instead of growing parent action enums.
+- Pass data down as input and events up as callbacks in the input.

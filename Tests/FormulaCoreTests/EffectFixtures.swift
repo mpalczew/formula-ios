@@ -49,7 +49,8 @@ struct LoadingFormula: Formula {
         let cancel: Callback<Void>
     }
 
-    func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         .init(value: state.value, load: context.callback { _, index in
             context.effect(key: replace ? "load" : nil) {
                 let value = await requests[index].value()
@@ -64,8 +65,6 @@ struct LoadingParent: Formula {
     let first: ControlledValue<Int>
     let second: ControlledValue<Int>
     struct State {
-        var first = LoadingFormula.State()
-        var second = LoadingFormula.State()
         var showFirst = true
         var identity = 0
     }
@@ -73,12 +72,13 @@ struct LoadingParent: Formula {
         let first: LoadingFormula.RenderModel?
         let second: LoadingFormula.RenderModel
     }
-    func render(state: State, context: FormulaContext<State>) -> RenderModel {
+    func initialState(input: Void) -> State { State() }
+    func render(input: Void, state: State, context: FormulaContext<Self>) -> RenderModel {
         .init(
             first: state.showFirst
-                ? context.child(LoadingFormula(requests: [first]), state: \.first, key: state.identity)
+                ? context.child(LoadingFormula(requests: [first]), key: state.identity)
                 : nil,
-            second: context.child(LoadingFormula(requests: [second]), state: \.second)
+            second: context.child(LoadingFormula(requests: [second]), key: "second")
         )
     }
 }

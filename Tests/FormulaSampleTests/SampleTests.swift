@@ -5,15 +5,15 @@ import FormulaCore
 final class SampleTests: XCTestCase {
     @MainActor
     func testSampleTargetExistsAndRuns() {
-        let home = FormulaStore(formula: HomeScreen(), initialState: .init())
+        let home = FormulaStore(formula: HomeScreen())
         home.renderModel.increment()
         XCTAssertEqual(home.state.count, 1)
         XCTAssertEqual(home.state.message, "Updated from Home")
 
-        let settings = FormulaStore(formula: SettingsScreen(), initialState: .init())
+        let settings = FormulaStore(formula: SettingsScreen())
         settings.renderModel.header.onTap()
         settings.renderModel.toggle()
-        XCTAssertEqual(settings.state.header.title, "Settings *")
+        XCTAssertEqual(settings.renderModel.header.title, "Settings *")
         XCTAssertTrue(settings.state.enabled)
     }
 }

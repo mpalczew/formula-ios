@@ -3,12 +3,12 @@ import Combine
 @MainActor
 public final class FormulaStore<F: Formula>: ObservableObject {
     @Published public private(set) var renderModel: F.RenderModel
-    public var state: F.State { runtime.state }
+    public var state: F.State { runtime.root.state }
     public var activeEffectCount: Int { runtime.effects.activeCount }
     private let runtime: FormulaRuntime<F>
 
-    public init(formula: F, initialState: F.State) {
-        let runtime = FormulaRuntime(formula: formula, state: initialState)
+    public init(formula: F, input: F.Input) {
+        let runtime = FormulaRuntime(formula: formula, input: input)
         self.runtime = runtime
         self.renderModel = runtime.evaluate()
         runtime.onRender = { [weak self] model in
@@ -18,50 +18,60 @@ public final class FormulaStore<F: Formula>: ObservableObject {
     }
 
     public func send(_ mutation: @escaping (inout F.State) -> Void) { runtime.send(mutation) }
-    public func cancelEffects() { runtime.scope.cancelEffects() }
+    public func update(input: F.Input) { runtime.update(input: input) }
+    public func cancelEffects() { runtime.root.cancelEffects() }
 
     /// Waits for all started effects, including canceled operations, to finish.
     /// Useful with controllable test clients; this does not advance time for them.
     public func waitForEffects() async { await runtime.effects.waitUntilIdle() }
 }
 
-@MainActor
-private final class FormulaRuntime<F: Formula> {
-    private(set) var state: F.State
-    let effects = FormulaEffects()
-    let scope: FormulaScope
-    var onRender: ((F.RenderModel) -> Void)?
-    private let formula: F
-    private var pending: [(inout F.State) -> Void] = []
-    private var processing = false
-    private var evaluating = false
+public extension FormulaStore where F.Input == Void {
+    convenience init(formula: F) { self.init(formula: formula, input: ()) }
+}
 
-    init(formula: F, state: F.State) {
+@MainActor
+private final class FormulaRuntime<F: Formula>: ScopeHost {
+    let effects = FormulaEffects()
+    let root: FormulaNode<F>
+    var onRender: ((F.RenderModel) -> Void)?
+    private var isEvaluating = false
+    private let formula: F
+    private var pending: [() -> Bool] = []
+    private var processing = false
+
+    init(formula: F, input: F.Input) {
         self.formula = formula
-        self.state = state
-        self.scope = FormulaScope(effects: effects)
+        self.root = FormulaNode(formula: formula, input: input, effects: effects, parent: nil, host: nil)
+        root.attach(host: self)
     }
 
     func send(_ mutation: @escaping (inout F.State) -> Void) {
-        precondition(!evaluating, "Render must not transition state")
-        pending.append(mutation)
+        enqueue { [root] in
+            root.mutate(mutation)
+            return true
+        }
+    }
+
+    func update(input: F.Input) {
+        enqueue { [root, formula] in root.updateInput(formula, input) }
+    }
+
+    func enqueue(_ action: @escaping () -> Bool) {
+        precondition(!isEvaluating, "Render must not transition state")
+        pending.append(action)
         guard !processing else { return }
         processing = true
         defer { processing = false }
         while !pending.isEmpty {
             let next = pending.removeFirst()
-            next(&state)
-            onRender?(evaluate())
+            if next() { onRender?(evaluate()) }
         }
     }
 
     func evaluate() -> F.RenderModel {
-        evaluating = true
-        scope.beginEvaluation()
-        defer { scope.endEvaluation(); evaluating = false }
-        let context = FormulaContext(state: state, scope: scope) { [weak self] mutation in
-            self?.send(mutation)
-        }
-        return formula.render(state: state, context: context)
+        isEvaluating = true
+        defer { isEvaluating = false }
+        return root.renderIfNeeded()
     }
 }
